@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UNIGOIÁS • Projeto 1 • Gestão Financeira — Documento de Visão e Escopo</title>
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --card:#111827;
+      --muted:#9ca3af;
+      --text:#e5e7eb;
+      --accent:#22c55e;
+      --line:#1f2937;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: linear-gradient(180deg, #05070a, var(--bg));
+      color:var(--text);
+      line-height:1.55;
+    }
+    header{
+      padding:32px 16px 18px;
+      border-bottom:1px solid var(--line);
+      background: rgba(17,24,39,.35);
+      backdrop-filter: blur(10px);
+    }
+    .wrap{max-width:980px;margin:0 auto;padding:0 16px}
+    h1{margin:0 0 6px;font-size:28px}
+    .sub{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+    }
+    .pill{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      margin-top:14px;
+      padding:8px 12px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .dot{
+      width:8px;height:8px;border-radius:50%;
+      background:var(--accent);
+      box-shadow:0 0 18px rgba(34,197,94,.6);
+    }
+    main{padding:22px 0 48px}
+    section{
+      margin:18px 0;
+      background: rgba(17,24,39,.55);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:18px 16px;
+    }
+    h2{
+      margin:0 0 10px;
+      font-size:18px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    h2 .tag{
+      font-size:12px;
+      color:var(--muted);
+      border:1px solid var(--line);
+      padding:2px 8px;
+      border-radius:999px;
+    }
+    h3{
+      margin:14px 0 8px;
+      font-size:15px;
+      color:#f3f4f6;
+    }
+    p{margin:0 0 10px;color:#e5e7eb}
+    ul{margin:8px 0 0 18px}
+    li{margin:6px 0}
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap:12px;
+      margin-top:12px;
+    }
+    .mini{
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px;
+      background: rgba(0,0,0,.18);
+    }
+    .mini b{display:block;margin-bottom:6px}
+    footer{
+      border-top:1px solid var(--line);
+      padding:16px 0 26px;
+      color:var(--muted);
+      font-size:12px;
+    }
+    code{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      color:#d1fae5;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="wrap">
+      <h1>UNIGOIÁS — Projeto 1</h1>
+      <p class="sub"><b>Disciplina:</b> Projeto 1 • <b>Área:</b> Gestão Financeira • <b>Sistema:</b> Sistema de Gestão Financeira</p>
+      <div class="pill" aria-label="Informações do projeto">
+        <span class="dot" aria-hidden="true"></span>
+        <span><b>Integrantes:</b> Gabriel Diogo, Guilherme, David, Patrick Aroha e Fabrício</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+
+      <section id="visao-escopo">
+        <h2>1. Documento de Visão e Escopo <span class="tag">Visão geral</span></h2>
+
+        <h3>1.1 Definição do objetivo do sistema</h3>
+        <p>
+          O sistema <b>Gestão Financeira</b> tem como objetivo oferecer ao usuário um controle completo sobre suas finanças pessoais,
+          permitindo o registro de receitas e despesas, a visualização detalhada dos gastos por categoria e período, e a projeção de
+          gastos futuros com base no histórico. O sistema busca transformar dados financeiros em informações úteis para que o usuário
+          tome decisões mais conscientes sobre seu dinheiro.
+        </p>
+
+        <h3>1.2 Público-alvo</h3>
+        <p>
+          Pessoas físicas que desejam organizar e acompanhar suas finanças pessoais, entender seus padrões de consumo e identificar
+          oportunidades de economia no dia a dia.
+        </p>
+
+        <h3>1.3 Problema que o sistema resolve</h3>
+        <p>
+          Muitas pessoas não têm clareza sobre para aonde seu dinheiro está indo, gastam mais do que deveriam e chegam ao fim do mês
+          sem entender por que o saldo está negativo. O sistema resolve esse problema ao centralizar todas as movimentações financeiras
+          em um só lugar, categorizando os gastos e mostrando comparativos entre meses — ajudando o usuário a enxergar onde pode
+          economizar e quanto pode perder no mês seguinte se mantiver os hábitos.
+        </p>
+
+        <h3>1.4 Limitações do sistema</h3>
+        <ul>
+          <li>Funciona exclusivamente via <b>terminal</b>, sem interface gráfica web ou mobile.</li>
+          <li>Não oferece suporte a <b>múltiplas moedas</b>.</li>
+          <li>Não envia <b>notificações ou alertas automáticos</b> fora do sistema.</li>
+          <li>As projeções de gastos futuros são <b>estimativas simples</b> baseadas no histórico, sem uso de inteligência artificial.</li>
+        </ul>
+
+        <div class="grid" role="list" aria-label="Resumo">
+          <div class="mini" role="listitem">
+            <b>Plataforma</b>
+            <span>Terminal (CLI)</span>
+          </div>
+          <div class="mini" role="listitem">
+            <b>Moeda</b>
+            <span>Real (R$)</span>
+          </div>
+          <div class="mini" role="listitem">
+            <b>Foco</b>
+            <span>Finanças pessoais</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="requisitos">
+        <h2>2. Levantamento de Requisitos <span class="tag">Especificação</span></h2>
+
+        <h3>2.1 Requisitos Funcionais</h3>
+        <ul>
+          <li><b>RF01:</b> O sistema tem que ter cadastro e login de usuários.</li>
+          <li><b>RF02:</b> O sistema deve permitir o registro de receitas e despesas com valor, data, descrição e categoria.</li>
+          <li><b>RF03:</b> O sistema deve permitir edição e exclusão das transações feitas no sistema.</li>
+          <li><b>RF04:</b> O sistema deve listar todas as movimentações financeiras feitas no sistema pelo usuário.</li>
+          <li><b>RF05:</b> O sistema deve categorizar as transações.</li>
+          <li><b>RF06:</b> O sistema deve exibir o saldo atual do usuário com base nas receitas e despesas.</li>
+          <li><b>RF07:</b> O sistema deve apresentar opções de exportação <code>CSV</code> ao usuário.</li>
+          <li><b>RF08:</b> O sistema deve apresentar relatórios de gastos seja ele: por categoria ou total.</li>
+          <li><b>RF09:</b> O sistema deve apresentar uma projeção de gastos com base no que ele gastou durante o mês.</li>
+          <li><b>RF10:</b> O sistema deve sugerir onde o usuário pode economizar com base nos padrões de consumo.</li>
+        </ul>
+
+        <h3>2.2 Requisitos Não Funcionais</h3>
+        <ul>
+          <li><b>RNF01:</b> O sistema deve ser desenvolvido em <b>Java</b>.</li>
+          <li><b>RNF02:</b> O sistema deve utilizar banco de dados <b>relacional</b>.</li>
+          <li><b>RNF03:</b> O sistema deve ter documentação de todas as partes.</li>
+          <li><b>RNF04:</b> As senhas dos usuários devem ser armazenadas com criptografia <b>hash</b>.</li>
+          <li><b>RNF05:</b> O sistema deve operar apenas em <b>Real</b>.</li>
+          <li><b>RNF06:</b> O sistema deve responder às operações do usuário em tempo hábil.</li>
+          <li><b>RNF07:</b> O sistema deve funcionar apenas via <b>terminal</b>.</li>
+          <li><b>RNF08:</b> Deve ser possível adicionar novos usuários sem impacto significativo de desempenho.</li>
+        </ul>
+      </section>
+
+    </div>
+  </main>
+</body>
+</html>
