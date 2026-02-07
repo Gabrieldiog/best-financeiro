@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação - Best Financeiro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            color: #4ecca3;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h2 {
+            color: #4ecca3;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(78, 204, 163, 0.3);
+        }
+
+        h3 {
+            color: #ff6b6b;
+            font-size: 1.2rem;
+            margin: 20px 0 10px 0;
+        }
+
+        p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .folder-structure {
+            background: #0d1117;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        .folder-structure pre {
+            color: #58a6ff;
+            line-height: 1.8;
+        }
+
+        .folder {
+            color: #ffa657;
+        }
+
+        .file {
+            color: #7ee787;
+        }
+
+        .code-block {
+            background: #0d1117;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            color: #79c0ff;
+            font-family: 'Courier New', monospace;
+        }
+
+        .menu-item {
+            background: rgba(78, 204, 163, 0.1);
+            border-left: 4px solid #4ecca3;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .menu-item strong {
+            color: #4ecca3;
+        }
+
+        .warning {
+            background: rgba(255, 107, 107, 0.1);
+            border-left: 4px solid #ff6b6b;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info {
+            background: rgba(88, 166, 255, 0.1);
+            border-left: 4px solid #58a6ff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th {
+            background: rgba(78, 204, 163, 0.2);
+            color: #4ecca3;
+        }
+
+        tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .diagram {
+            text-align: center;
+            padding: 30px;
+            background: #0d1117;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .diagram-box {
+            display: inline-block;
+            background: rgba(78, 204, 163, 0.2);
+            border: 2px solid #4ecca3;
+            padding: 15px 25px;
+            margin: 10px;
+            border-radius: 10px;
+        }
+
+        .arrow {
+            color: #4ecca3;
+            font-size: 2rem;
+            margin: 0 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            margin-top: 30px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 5px 3px;
+        }
+
+        .badge-java {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+        }
+
+        .badge-terminal {
+            background: rgba(78, 204, 163, 0.2);
+            color: #4ecca3;
+        }
+
+        .badge-db {
+            background: rgba(88, 166, 255, 0.2);
+            color: #58a6ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💰 Best Financeiro</h1>
+            <p class="subtitle">Sistema de Gestão Financeira via Terminal</p>
+            <div style="margin-top: 15px;">
+                <span class="badge badge-java">Java</span>
+                <span class="badge badge-terminal">Terminal</span>
+                <span class="badge badge-db">Banco de Dados</span>
+            </div>
+        </header>
+
+        <!-- Visão Geral -->
+        <section class="section">
+            <h2>📋 Visão Geral do Sistema</h2>
+            <p>
+                O <strong>Best Financeiro</strong> é um sistema de gestão financeira pessoal desenvolvido em Java, 
+                que opera inteiramente via linha de comando (terminal). O sistema implementa um CRUD completo 
+                para controle de receitas e despesas, permitindo ao usuário gerenciar suas finanças de forma 
+                simples e eficiente.
+            </p>
+            <div class="info">
+                <strong>ℹ️ Tipo de Aplicação:</strong> Console Application (CLI - Command Line Interface)
+            </div>
+        </section>
+
+        <!-- Estrutura de Pastas -->
+        <section class="section">
+            <h2>📁 Estrutura de Pastas</h2>
+            <div class="folder-structure">
+<pre>
+<span class="folder">best-financeiro/</span>
+├── <span class="file">README.md</span>                    # Documentação do projeto e guia Git
+├── <span class="folder">docs/</span>                       # Documentação do sistema
+│   └── <span class="file">documentacao.html</span>        # Esta documentação
+└── <span class="folder">src/</span>                        # Código-fonte
+    └── <span class="folder">main/</span>
+        └── <span class="folder">java/</span>
+            └── <span class="folder">com/</span>
+                └── <span class="folder">gestao/</span>
+                    ├── <span class="file">App.java</span>             # Classe principal (ponto de entrada)
+                    ├── <span class="folder">model/</span>               # Entidades do sistema
+                    │   ├── <span class="file">Transacao.java</span>   # Modelo de transação
+                    │   ├── <span class="file">Receita.java</span>     # Modelo de receita
+                    │   └── <span class="file">Despesa.java</span>     # Modelo de despesa
+                    ├── <span class="folder">dao/</span>                 # Data Access Object
+                    │   ├── <span class="file">ConexaoDB.java</span>   # Gerenciador de conexão
+                    │   └── <span class="file">TransacaoDAO.java</span># Operações CRUD
+                    ├── <span class="folder">service/</span>             # Regras de negócio
+                    │   └── <span class="file">FinanceiroService.java</span>
+                    └── <span class="folder">util/</span>                # Utilitários
+                        ├── <span class="file">Menu.java</span>        # Interface do menu
+                        └── <span class="file">Validador.java</span>   # Validação de dados
+</pre>
+            </div>
+
+            <h3>Descrição de Cada Pasta</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Pasta</th>
+                        <th>Responsabilidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>src/main/java/com/gestao/</code></td>
+                        <td>Pacote raiz do projeto contendo todas as classes Java</td>
+                    </tr>
+                    <tr>
+                        <td><code>model/</code></td>
+                        <td>Classes de entidade que representam os dados (Transacao, Receita, Despesa)</td>
+                    </tr>
+                    <tr>
+                        <td><code>dao/</code></td>
+                        <td>Data Access Object - responsável pela comunicação com o banco de dados</td>
+                    </tr>
+                    <tr>
+                        <td><code>service/</code></td>
+                        <td>Contém as regras de negócio e lógica da aplicação</td>
+                    </tr>
+                    <tr>
+                        <td><code>util/</code></td>
+                        <td>Classes utilitárias como menu de interface e validadores</td>
+                    </tr>
+                    <tr>
+                        <td><code>docs/</code></td>
+                        <td>Documentação do projeto</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Modus Operandi -->
+        <section class="section">
+            <h2>⚙️ Modus Operandi do Sistema</h2>
+            
+            <h3>Fluxo de Execução</h3>
+            <div class="diagram">
+                <div class="diagram-box">Iniciar App</div>
+                <span class="arrow">→</span>
+                <div class="diagram-box">Menu Principal</div>
+                <span class="arrow">→</span>
+                <div class="diagram-box">Operação CRUD</div>
+                <span class="arrow">→</span>
+                <div class="diagram-box">Banco de Dados</div>
+            </div>
+
+            <h3>Menu Principal</h3>
+            <p>Ao executar o sistema, o usuário é apresentado a um menu interativo com as seguintes opções:</p>
+            
+            <div class="menu-item">
+                <strong>[1] Cadastrar Receita</strong><br>
+                Permite registrar uma nova entrada de dinheiro (salário, vendas, etc.)
+            </div>
+            
+            <div class="menu-item">
+                <strong>[2] Cadastrar Despesa</strong><br>
+                Permite registrar uma saída de dinheiro (contas, compras, etc.)
+            </div>
+            
+            <div class="menu-item">
+                <strong>[3] Listar Transações</strong><br>
+                Exibe todas as receitas e despesas cadastradas
+            </div>
+            
+            <div class="menu-item">
+                <strong>[4] Consultar Saldo</strong><br>
+                Mostra o saldo atual (receitas - despesas)
+            </div>
+            
+            <div class="menu-item">
+                <strong>[5] Editar Transação</strong><br>
+                Permite modificar uma transação existente
+            </div>
+            
+            <div class="menu-item">
+                <strong>[6] Excluir Transação</strong><br>
+                Remove uma transação do sistema
+            </div>
+            
+            <div class="menu-item">
+                <strong>[7] Relatório Mensal</strong><br>
+                Gera um resumo financeiro do mês
+            </div>
+            
+            <div class="menu-item">
+                <strong>[0] Sair</strong><br>
+                Encerra o programa
+            </div>
+        </section>
+
+        <!-- Operações CRUD -->
+        <section class="section">
+            <h2>🔄 Operações CRUD</h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Operação</th>
+                        <th>Descrição</th>
+                        <th>Dados Necessários</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>CREATE</strong></td>
+                        <td>Cadastrar nova transação</td>
+                        <td>Tipo, Descrição, Valor, Data, Categoria</td>
+                    </tr>
+                    <tr>
+                        <td><strong>READ</strong></td>
+                        <td>Listar/Consultar transações</td>
+                        <td>Filtros opcionais (data, tipo, categoria)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>UPDATE</strong></td>
+                        <td>Editar transação existente</td>
+                        <td>ID da transação + novos dados</td>
+                    </tr>
+                    <tr>
+                        <td><strong>DELETE</strong></td>
+                        <td>Excluir transação</td>
+                        <td>ID da transação</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Como Executar -->
+        <section class="section">
+            <h2>🚀 Como Executar o Sistema</h2>
+            
+            <h3>Pré-requisitos</h3>
+            <ul>
+                <li>Java JDK 11 ou superior instalado</li>
+                <li>Banco de dados configurado (MySQL/PostgreSQL)</li>
+                <li>Terminal/Prompt de comando</li>
+            </ul>
+
+            <h3>Comandos de Execução</h3>
+            <div class="code-block">
+                <code>
+# Navegar até a pasta do projeto<br>
+cd best-financeiro<br><br>
+
+# Compilar o projeto<br>
+javac -d bin src/main/java/com/gestao/*.java<br><br>
+
+# Executar a aplicação<br>
+java -cp bin com.gestao.App
+                </code>
+            </div>
+
+            <div class="warning">
+                <strong>⚠️ Atenção:</strong> Certifique-se de que o banco de dados está configurado 
+                e rodando antes de iniciar a aplicação.
+            </div>
+        </section>
+
+        <!-- Modelo de Dados -->
+        <section class="section">
+            <h2>📊 Modelo de Dados</h2>
+            
+            <h3>Entidade: Transação</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Campo</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>id</td>
+                        <td>Integer</td>
+                        <td>Identificador único da transação</td>
+                    </tr>
+                    <tr>
+                        <td>tipo</td>
+                        <td>Enum</td>
+                        <td>RECEITA ou DESPESA</td>
+                    </tr>
+                    <tr>
+                        <td>descricao</td>
+                        <td>String</td>
+                        <td>Descrição da transação</td>
+                    </tr>
+                    <tr>
+                        <td>valor</td>
+                        <td>Double</td>
+                        <td>Valor monetário</td>
+                    </tr>
+                    <tr>
+                        <td>data</td>
+                        <td>LocalDate</td>
+                        <td>Data da transação</td>
+                    </tr>
+                    <tr>
+                        <td>categoria</td>
+                        <td>String</td>
+                        <td>Categoria (Alimentação, Transporte, etc.)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Exemplo de Uso -->
+        <section class="section">
+            <h2>💻 Exemplo de Uso no Terminal</h2>
+            <div class="code-block">
+                <code style="color: #7ee787;">
+========================================<br>
+       BEST FINANCEIRO v1.0<br>
+========================================<br><br>
+
+[1] Cadastrar Receita<br>
+[2] Cadastrar Despesa<br>
+[3] Listar Transações<br>
+[4] Consultar Saldo<br>
+[5] Editar Transação<br>
+[6] Excluir Transação<br>
+[7] Relatório Mensal<br>
+[0] Sair<br><br>
+
+Digite sua opção: <span style="color: #58a6ff;">1</span><br><br>
+
+--- CADASTRAR RECEITA ---<br>
+Descrição: <span style="color: #58a6ff;">Salário Janeiro</span><br>
+Valor: <span style="color: #58a6ff;">3500.00</span><br>
+Data (dd/mm/aaaa): <span style="color: #58a6ff;">05/01/2026</span><br>
+Categoria: <span style="color: #58a6ff;">Salário</span><br><br>
+
+<span style="color: #4ecca3;">✓ Receita cadastrada com sucesso!</span>
+                </code>
+            </div>
+        </section>
+
+        <!-- Tecnologias -->
+        <section class="section">
+            <h2>🛠️ Tecnologias Utilizadas</h2>
+            <ul>
+                <li><strong>Java 11+</strong> - Linguagem de programação principal</li>
+                <li><strong>JDBC</strong> - Conexão com banco de dados</li>
+                <li><strong>MySQL/PostgreSQL</strong> - Banco de dados relacional</li>
+                <li><strong>Scanner</strong> - Entrada de dados via terminal</li>
+                <li><strong>Git</strong> - Controle de versão</li>
+            </ul>
+        </section>
+
+        <!-- Contribuição -->
+        <section class="section">
+            <h2>👥 Guia de Contribuição</h2>
+            <ol>
+                <li>Sempre atualize seu repositório local: <code>git pull origin main</code></li>
+                <li>Crie uma branch para sua feature: <code>git checkout -b feature/nome-da-feature</code></li>
+                <li>Faça suas alterações e adicione: <code>git add .</code></li>
+                <li>Commit suas mudanças: <code>git commit -m "Descrição das alterações"</code></li>
+                <li>Envie para o GitHub: <code>git push origin sua-branch</code></li>
+                <li>Abra um Pull Request para revisão</li>
+            </ol>
+        </section>
+
+        <footer>
+            <p>📄 Documentação Best Financeiro | Desenvolvido em Java | 2026</p>
+        </footer>
+    </div>
+</body>
+</html>
