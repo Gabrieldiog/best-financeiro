@@ -1,1 +1,6 @@
 #colocar aqui coisas que nao podem ir para o github( dados sensiveis))
+
+# nao enviar .class pro git 
+*.class
+#nao enviar a pasta .vscode pro git
+.vscode/
