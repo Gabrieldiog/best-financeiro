@@ -13,7 +13,7 @@ public class App {
 
         int opcao = 0;
         while (opcao != 3) {
-            System.out.println("\n========== SISTEMA FINANCEIRO ==========");
+            System.out.println("\n--------- SISTEMA FINANCEIRO ---------");
             System.out.println("1 - Cadastrar");
             System.out.println("2 - Login");
             System.out.println("3 - Sair");
@@ -24,7 +24,7 @@ public class App {
                 scanner.nextLine();
             } else {
                 scanner.nextLine();
-                System.out.println("Opcao invalida!");
+                System.out.println("Opcao invalida");
                 continue;
             }
 
@@ -36,10 +36,10 @@ public class App {
                     login();
                     break;
                 case 3:
-                    System.out.println("Saindo...");
+                    System.out.println("Saindo do sistema");
                     break;
                 default:
-                    System.out.println("Opcao invalida!");
+                    System.out.println("Opcao invalida");
             }
         }
         scanner.close();
@@ -48,68 +48,71 @@ public class App {
     private static void cadastrar() {
         System.out.println("\n---------- CADASTRO ----------");
 
-        System.out.print("Digite o username: ");
-        String username = scanner.nextLine().trim();
-
-        if (username.isEmpty()) {
-            System.out.println("Username nao pode ser vazio!");
-            return;
+        String username;
+        while (true) {
+            System.out.print("Digite o username: ");
+            username = scanner.nextLine().trim();
+            if (username.isEmpty()) {
+                System.out.println("Username nao pode ser vazio!");
+                continue;
+            }
+            if (usuarioDAO.usernameExiste(username)) {
+                System.out.println("Esse username ja esta em uso, pode tentar outra ai em...");
+                continue;
+            }
+            break;
         }
 
-        if (usuarioDAO.usernameExiste(username)) {
-            System.out.println("Esse username ja esta em uso!");
-            return;
-        }
-
-        System.out.print("Digite a senha: ");
-        String senha = scanner.nextLine();
-
-        String erroSenha = validarSenha(senha);
-        if (erroSenha != null) {
-            System.out.println(erroSenha);
-            return;
-        }
-
-        System.out.print("Confirme a senha: ");
-        String confirmacao = scanner.nextLine();
-
-        if (!senha.equals(confirmacao)) {
-            System.out.println("As senhas nao coincidem!");
-            return;
+        String senha;
+        while (true) {
+            System.out.print("Digite a senha: ");
+            senha = scanner.nextLine();
+            String erroSenha = validarSenha(senha);
+            if (erroSenha != null) {
+                System.out.println(erroSenha);
+                continue;
+            }
+            System.out.print("Confirme a senha: ");
+            String confirmacao = scanner.nextLine();
+            if (!senha.equals(confirmacao)) {
+                System.out.println("As senhas nao coincidem, confirma ai direito...");
+                continue;
+            }
+            break;
         }
 
         Usuario usuario = new Usuario(username, senha);
         if (usuarioDAO.cadastrar(usuario)) {
-            System.out.println("Cadastro realizado com sucesso!");
+            System.out.println("Cadastro realizado com sucesso, pode logar!");
         } else {
-            System.out.println("Erro ao cadastrar!");
+            System.out.println("Erro ao cadastrar, verifique os dados");
         }
     }
 
     private static void login() {
         System.out.println("\n---------- LOGIN ----------");
 
-        System.out.print("Digite o username: ");
-        String username = scanner.nextLine().trim();
-
-        if (username.isEmpty()) {
-            System.out.println("Username nao pode ser vazio!");
-            return;
-        }
-
-        System.out.print("Digite a senha: ");
-        String senha = scanner.nextLine();
-
-        if (usuarioDAO.login(username, senha)) {
-            System.out.println("Login realizado com sucesso!");
-        } else {
-            System.out.println("Username ou senha incorretos!");
+        while (true) {
+            System.out.print("Digite o username: ");
+            String username = scanner.nextLine().trim();
+            if (username.isEmpty()) {
+                System.out.println("Username nao pode ser vazio!");
+                continue;
+            }
+            System.out.print("Digite a senha: ");
+            String senha = scanner.nextLine();
+            if (usuarioDAO.login(username, senha)) {
+                System.out.println("Login realizado com sucesso!");
+                break;
+            } else {
+                System.out.println("Username ou senha incorretos!");
+            }
         }
     }
 
     private static String validarSenha(String senha) {
-        if (senha.length() != 6) {
-            return "A senha deve ter exatamente 6 caracteres!";
+        if (senha.length() < 6) {
+            return "A senha deve ter no minimo 6 caracteres!";
         }
 
         if (senha.equals("123456")) {
