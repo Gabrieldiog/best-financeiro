@@ -24,7 +24,7 @@ public class ReadDAO {
             if (rs.next()) {
                 usuario = new Usuario();
                 usuario.setUsername(rs.getString("username"));
-                // Não adicionei senha nem ID aqui para focar só no nome que vai aparecer no extrato
+                
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -32,7 +32,7 @@ public class ReadDAO {
         return usuario;
     }
     public List<String> listarMovimentacoes(int idUsuario){
-         String sql
+         String sql = 
 
 
 
