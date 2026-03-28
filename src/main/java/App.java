@@ -1,12 +1,15 @@
 import java.util.Scanner;
 import DAO.UsuarioDAO;
 import model.Usuario;
+import model.Crud;
+import DAO.CrudDAO;
 import utils.Conexao;
 
 public class App {
 
     private static Scanner scanner = new Scanner(System.in);
     private static UsuarioDAO usuarioDAO = new UsuarioDAO();
+    private static CrudDAO crudDAO = new CrudDAO();
 
     public static void main(String[] args) {
         Conexao.criarTabela();
@@ -101,8 +104,10 @@ public class App {
             }
             System.out.print("Digite a senha: ");
             String senha = scanner.nextLine();
-            if (usuarioDAO.login(username, senha)) {
+            int userId = usuarioDAO.login(username, senha);
+            if (userId != -1) {
                 System.out.println("Login realizado com sucesso!");
+                menuPrincipal(userId);
                 break;
             } else {
                 System.out.println("Username ou senha incorretos!");
@@ -143,5 +148,109 @@ public class App {
         }
 
         return null;
+    }
+
+    public static void menuPrincipal(int userId) {
+        int opcao = 0;
+
+        while (opcao != 3){
+            System.out.println("\n--------- MENU PRINCIPAL ---------");
+            System.out.println("1 - Registar transacao");
+            System.out.println("2 - Editar transacao");
+            System.out.println("3 - Voltar");
+            System.out.print("Escolha uma opcao: ");
+
+            if(scanner.hasNextInt()){
+                opcao = scanner.nextInt();
+                scanner.nextLine();
+            } else {
+                scanner.nextLine();
+                System.out.println("Opcao invalida!");
+                continue;
+            }
+
+            switch (opcao) {
+                case 1:
+                    registrarTransacao(userId);
+                    break;
+                case 2:
+                    editarTransacao();
+                    break;
+                case 3:
+                    System.out.println("Voltando...");
+                    break;
+                default:
+                    System.out.println("Opcao invalida");
+            }
+        }
+    }
+
+    private static void registrarTransacao(int userId){
+        System.out.println("\n-------- NOVA TRANSACAO --------");
+
+        System.out.print("Tipo (receita/despesa): ");
+        String tipo = scanner.nextLine().trim();
+
+        System.out.print("Valor: ");
+        double valor;
+        try {
+            valor = Double.parseDouble(scanner.nextLine().trim().replace(",", "."));
+        } catch (NumberFormatException e) {
+            System.out.println("Valor invalido!");
+            return;
+        }
+
+        System.out.print("Data (DD/MM/YYYY): ");
+        String data = scanner.nextLine().trim();
+
+        System.out.print("Descricao: ");
+        String descricao = scanner.nextLine().trim();
+
+        System.out.print("Categoria: ");
+        String categoria = scanner.nextLine().trim();
+
+        Crud transacao = new Crud(userId, tipo, valor, data, descricao, categoria);
+        if(crudDAO.inserir(transacao)){
+            System.out.println("Transacao registrada com sucesso.");
+        } else {
+            System.out.println("Erro ao registrar transacoes.");
+        }
+    }
+
+    private static void editarTransacao() {
+        System.out.println("\n---------- EDITAR TRANSACAO ----------");
+
+        System.out.print("ID da transacao: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Novo tipo (receita/despesa): ");
+        String tipo = scanner.nextLine().trim();
+
+        System.out.print("Novo valor: ");
+        double valor;
+        try {
+            valor = Double.parseDouble(scanner.nextLine().trim().replace(",", "."));
+        } catch (NumberFormatException e) {
+            System.out.println("Valor invalido!");
+            return;
+        }
+
+        System.out.print("Nova data (dd/MM/yyyy): ");
+        String data = scanner.nextLine().trim();
+
+        System.out.print("Nova descricao: ");
+        String descricao = scanner.nextLine().trim();
+
+        System.out.print("Nova categoria: ");
+        String categoria = scanner.nextLine().trim();
+
+        Crud transacao = new Crud(0, tipo, valor, data, descricao, categoria);
+        transacao.setId(id);
+        if (crudDAO.atualizar(transacao)) {
+            System.out.println("Transacao atualizada com sucesso!");
+        } else {
+            System.out.println("Erro ao atualizar transacao.");
+        }
     }
 }

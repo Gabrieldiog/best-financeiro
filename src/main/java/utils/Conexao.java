@@ -27,8 +27,20 @@ public class Conexao {
                 + "username TEXT NOT NULL UNIQUE,"
                 + "senha TEXT NOT NULL)";
         try (Connection conn = getConnection();
-             Statement stmt = conn.createStatement()) {
+            Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
+
+            String sqlTransacoes = "CREATE TABLE IF NOT EXISTS transacoes ("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + "usuario_id INTEGER NOT NULL, "
+                + "tipo TEXT NOT NULL, "
+                + "valor REAL NOT NULL, "
+                + "data TEXT NOT NULL, "
+                + "descricao TEXT NOT NULL, "
+                + "categoria TEXT NOT NULL, "
+                + "FOREIGN KEY (usuario_id) REFERENCES usuarios(id))";
+            stmt.execute(sqlTransacoes);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

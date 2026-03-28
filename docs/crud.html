@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação CRUD - Best Financeiro</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 { color: #4ecca3; font-size: 2.5rem; margin-bottom: 10px; }
+
+        .subtitle { color: #888; font-size: 1.1rem; }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-top: 10px;
+        }
+        .badge-green { background: rgba(78, 204, 163, 0.2); color: #4ecca3; border: 1px solid #4ecca3; }
+        .badge-blue  { background: rgba(88, 166, 255, 0.2); color: #58a6ff; border: 1px solid #58a6ff; }
+        .badge-orange { background: rgba(255, 166, 87, 0.2); color: #ffa657; border: 1px solid #ffa657; }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h2 {
+            color: #4ecca3;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(78, 204, 163, 0.3);
+        }
+
+        h3 { color: #ff6b6b; font-size: 1.2rem; margin: 20px 0 10px 0; }
+
+        p { line-height: 1.8; margin-bottom: 15px; }
+
+        ul, ol { margin-left: 25px; margin-bottom: 15px; }
+        li { margin-bottom: 10px; line-height: 1.6; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px 15px; text-align: left; border: 1px solid rgba(255, 255, 255, 0.1); }
+        th { background: rgba(78, 204, 163, 0.2); color: #4ecca3; }
+        tr:nth-child(even) { background: rgba(255, 255, 255, 0.02); }
+
+        .code-block {
+            background: #0d1117;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            color: #79c0ff;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            white-space: pre;
+        }
+
+        .keyword { color: #ff7b72; }
+        .string  { color: #a5d6ff; }
+        .type    { color: #ffa657; }
+        .comment { color: #8b949e; }
+        .method  { color: #d2a8ff; }
+
+        .info {
+            background: rgba(88, 166, 255, 0.1);
+            border-left: 4px solid #58a6ff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .success {
+            background: rgba(78, 204, 163, 0.1);
+            border-left: 4px solid #4ecca3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning {
+            background: rgba(255, 107, 107, 0.1);
+            border-left: 4px solid #ff6b6b;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .diagram {
+            text-align: center;
+            padding: 30px;
+            background: #0d1117;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .diagram-box {
+            display: inline-block;
+            background: rgba(78, 204, 163, 0.2);
+            border: 2px solid #4ecca3;
+            padding: 15px 25px;
+            margin: 10px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .diagram-box.dao {
+            background: rgba(88, 166, 255, 0.2);
+            border-color: #58a6ff;
+        }
+
+        .diagram-box.db {
+            background: rgba(255, 166, 87, 0.2);
+            border-color: #ffa657;
+        }
+
+        .arrow { color: #4ecca3; font-size: 2rem; margin: 0 10px; vertical-align: middle; }
+
+        .flow-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin: 12px 0;
+            padding: 12px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+        }
+
+        .flow-number {
+            background: #4ecca3;
+            color: #0d1117;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .flow-content { flex: 1; }
+        .flow-content strong { color: #4ecca3; }
+
+        .menu-item {
+            background: rgba(78, 204, 163, 0.1);
+            border-left: 4px solid #4ecca3;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .menu-item strong { color: #4ecca3; }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <header>
+            <h1>Documentação CRUD</h1>
+            <p class="subtitle">Best Financeiro — Sistema de Gestão Financeira Pessoal</p>
+            <div style="margin-top: 15px;">
+                <span class="badge badge-green">RF02 — Create</span>
+                <span class="badge badge-blue">RF03 — Update</span>
+                <span class="badge badge-orange">v1.0 — 28/03/2026</span>
+            </div>
+        </header>
+
+        <!-- VISÃO GERAL -->
+        <div class="section">
+            <h2>1. Visão Geral</h2>
+            <p>
+                Este documento descreve a implementação das operações de <strong>criação</strong> (Create) e
+                <strong>atualização</strong> (Update) de transações financeiras no sistema Best Financeiro,
+                atendendo aos requisitos funcionais RF02 e RF03.
+            </p>
+            <div class="info">
+                <strong>RF02:</strong> O sistema deve permitir o registro de receitas e despesas com valor, data, descrição e categoria.
+            </div>
+            <div class="info">
+                <strong>RF03:</strong> O sistema deve permitir a edição de transações existentes.
+            </div>
+        </div>
+
+        <!-- ARQUITETURA -->
+        <div class="section">
+            <h2>2. Arquitetura</h2>
+            <p>O CRUD segue o padrão <strong>MVC simplificado</strong> com separação em camadas:</p>
+
+            <div class="diagram">
+                <div class="diagram-box">App.java<br><small>(Interface / Controller)</small></div>
+                <span class="arrow">→</span>
+                <div class="diagram-box dao">CrudDAO.java<br><small>(Data Access Object)</small></div>
+                <span class="arrow">→</span>
+                <div class="diagram-box db">SQLite<br><small>(financeiro.db)</small></div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Camada</th>
+                        <th>Arquivo</th>
+                        <th>Responsabilidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Model</td>
+                        <td><code>model/Crud.java</code></td>
+                        <td>Representa uma transação financeira com seus atributos</td>
+                    </tr>
+                    <tr>
+                        <td>DAO</td>
+                        <td><code>DAO/CrudDAO.java</code></td>
+                        <td>Operações de banco de dados (INSERT e UPDATE)</td>
+                    </tr>
+                    <tr>
+                        <td>Controller/View</td>
+                        <td><code>App.java</code></td>
+                        <td>Interface CLI e validação de entrada do usuário</td>
+                    </tr>
+                    <tr>
+                        <td>Utilitário</td>
+                        <td><code>utils/Conexao.java</code></td>
+                        <td>Conexão com SQLite e criação de tabelas</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- BANCO DE DADOS -->
+        <div class="section">
+            <h2>3. Banco de Dados</h2>
+            <h3>Tabela: transacoes</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Coluna</th>
+                        <th>Tipo</th>
+                        <th>Restrição</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>id</code></td>
+                        <td>INTEGER</td>
+                        <td>PRIMARY KEY AUTOINCREMENT</td>
+                        <td>Identificador único da transação</td>
+                    </tr>
+                    <tr>
+                        <td><code>usuario_id</code></td>
+                        <td>INTEGER</td>
+                        <td>NOT NULL, FOREIGN KEY</td>
+                        <td>Referência ao usuário dono da transação</td>
+                    </tr>
+                    <tr>
+                        <td><code>tipo</code></td>
+                        <td>TEXT</td>
+                        <td>NOT NULL</td>
+                        <td>"receita" ou "despesa"</td>
+                    </tr>
+                    <tr>
+                        <td><code>valor</code></td>
+                        <td>REAL</td>
+                        <td>NOT NULL</td>
+                        <td>Valor monetário em R$</td>
+                    </tr>
+                    <tr>
+                        <td><code>data</code></td>
+                        <td>TEXT</td>
+                        <td>NOT NULL</td>
+                        <td>Data no formato DD/MM/YYYY</td>
+                    </tr>
+                    <tr>
+                        <td><code>descricao</code></td>
+                        <td>TEXT</td>
+                        <td>NOT NULL</td>
+                        <td>Descrição da transação</td>
+                    </tr>
+                    <tr>
+                        <td><code>categoria</code></td>
+                        <td>TEXT</td>
+                        <td>NOT NULL</td>
+                        <td>Categoria (ex: moradia, trabalho, alimentação)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>SQL de criação</h3>
+            <div class="code-block">
+<code><span class="keyword">CREATE TABLE IF NOT EXISTS</span> transacoes (
+    id <span class="type">INTEGER</span> <span class="keyword">PRIMARY KEY AUTOINCREMENT</span>,
+    usuario_id <span class="type">INTEGER</span> <span class="keyword">NOT NULL</span>,
+    tipo <span class="type">TEXT</span> <span class="keyword">NOT NULL</span>,
+    valor <span class="type">REAL</span> <span class="keyword">NOT NULL</span>,
+    data <span class="type">TEXT</span> <span class="keyword">NOT NULL</span>,
+    descricao <span class="type">TEXT</span> <span class="keyword">NOT NULL</span>,
+    categoria <span class="type">TEXT</span> <span class="keyword">NOT NULL</span>,
+    <span class="keyword">FOREIGN KEY</span> (usuario_id) <span class="keyword">REFERENCES</span> usuarios(id)
+);</code>
+            </div>
+        </div>
+
+        <!-- MODEL -->
+        <div class="section">
+            <h2>4. Model — Crud.java</h2>
+            <p>Classe que representa uma transação financeira. Contém todos os atributos correspondentes às colunas da tabela.</p>
+
+            <h3>Atributos</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Atributo</th>
+                        <th>Tipo Java</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>id</code></td><td>int</td><td>ID da transação (auto-gerado)</td></tr>
+                    <tr><td><code>usuario_id</code></td><td>int</td><td>ID do usuário proprietário</td></tr>
+                    <tr><td><code>tipo</code></td><td>String</td><td>"receita" ou "despesa"</td></tr>
+                    <tr><td><code>valor</code></td><td>double</td><td>Valor em R$</td></tr>
+                    <tr><td><code>data</code></td><td>String</td><td>Data no formato DD/MM/YYYY</td></tr>
+                    <tr><td><code>descricao</code></td><td>String</td><td>Descrição da transação</td></tr>
+                    <tr><td><code>categoria</code></td><td>String</td><td>Categoria da transação</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Construtores</h3>
+            <div class="code-block">
+<code><span class="comment">// Construtor vazio</span>
+<span class="keyword">public</span> <span class="method">Crud</span>() {}
+
+<span class="comment">// Construtor com parâmetros (sem id, pois é auto-gerado)</span>
+<span class="keyword">public</span> <span class="method">Crud</span>(<span class="type">int</span> usuario_id, <span class="type">String</span> tipo, <span class="type">double</span> valor,
+          <span class="type">String</span> data, <span class="type">String</span> descricao, <span class="type">String</span> categoria)</code>
+            </div>
+
+            <h3>Métodos</h3>
+            <p>Getters e Setters para cada atributo: <code>getId()</code>, <code>setId()</code>,
+            <code>getUsuarioId()</code>, <code>setUsuarioId()</code>,
+            <code>getTipo()</code>, <code>setTipo()</code>,
+            <code>getValor()</code>, <code>setValor()</code>,
+            <code>getData()</code>, <code>setData()</code>,
+            <code>getDescricao()</code>, <code>setDescricao()</code>,
+            <code>getCategoria()</code>, <code>setCategoria()</code>.</p>
+        </div>
+
+        <!-- DAO -->
+        <div class="section">
+            <h2>5. DAO — CrudDAO.java</h2>
+            <p>Camada de acesso a dados. Utiliza <strong>PreparedStatement</strong> para prevenir SQL Injection.</p>
+
+            <h3>5.1 Método inserir() — CREATE</h3>
+            <div class="code-block">
+<code><span class="keyword">public boolean</span> <span class="method">inserir</span>(<span class="type">Crud</span> transacao)</code>
+            </div>
+            <ul>
+                <li><strong>Parâmetro:</strong> objeto <code>Crud</code> com os dados da transação</li>
+                <li><strong>Retorno:</strong> <code>true</code> se inseriu com sucesso, <code>false</code> em caso de erro</li>
+                <li><strong>SQL:</strong> <code>INSERT INTO transacoes (usuario_id, tipo, valor, data, descricao, categoria) VALUES (?, ?, ?, ?, ?, ?)</code></li>
+            </ul>
+
+            <div class="success">
+                Utiliza <code>PreparedStatement</code> com parâmetros <code>?</code> para prevenir injeção SQL.
+            </div>
+
+            <h3>5.2 Método atualizar() — UPDATE</h3>
+            <div class="code-block">
+<code><span class="keyword">public boolean</span> <span class="method">atualizar</span>(<span class="type">Crud</span> transacao)</code>
+            </div>
+            <ul>
+                <li><strong>Parâmetro:</strong> objeto <code>Crud</code> com o <code>id</code> da transação e os novos dados</li>
+                <li><strong>Retorno:</strong> <code>true</code> se atualizou com sucesso, <code>false</code> em caso de erro</li>
+                <li><strong>SQL:</strong> <code>UPDATE transacoes SET tipo = ?, valor = ?, data = ?, descricao = ?, categoria = ? WHERE id = ?</code></li>
+            </ul>
+
+            <div class="info">
+                O <code>WHERE id = ?</code> garante que apenas a transação específica seja alterada.
+            </div>
+        </div>
+
+        <!-- FLUXO DO USUÁRIO -->
+        <div class="section">
+            <h2>6. Fluxo do Usuário</h2>
+
+            <h3>6.1 Registrar Transação (Create)</h3>
+
+            <div class="flow-step">
+                <div class="flow-number">1</div>
+                <div class="flow-content"><strong>Login:</strong> Usuário faz login e o sistema obtém seu <code>userId</code></div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-number">2</div>
+                <div class="flow-content"><strong>Menu Principal:</strong> Seleciona opção "1 - Registrar transação"</div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-number">3</div>
+                <div class="flow-content"><strong>Entrada de dados:</strong> Informa tipo, valor, data, descrição e categoria</div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-number">4</div>
+                <div class="flow-content"><strong>Persistência:</strong> Sistema cria objeto <code>Crud</code> e chama <code>CrudDAO.inserir()</code></div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-number">5</div>
+                <div class="flow-content"><strong>Feedback:</strong> Exibe "Transacao registrada com sucesso." ou mensagem de erro</div>
+            </div>
+
+            <h3>6.2 Editar Transação (Update)</h3>
+
+            <div class="flow-step">
+                <div class="flow-number">1</div>
+                <div class="flow-content"><strong>Menu Principal:</strong> Seleciona opção "2 - Editar transação"</div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-number">2</div>
+                <div class="flow-content"><strong>Identificação:</strong> Informa o <code>ID</code> da transação a editar</div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-number">3</div>
+                <div class="flow-content"><strong>Novos dados:</strong> Informa o novo tipo, valor, data, descrição e categoria</div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-number">4</div>
+                <div class="flow-content"><strong>Persistência:</strong> Sistema cria objeto <code>Crud</code>, define o ID e chama <code>CrudDAO.atualizar()</code></div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-number">5</div>
+                <div class="flow-content"><strong>Feedback:</strong> Exibe "Transacao atualizada com sucesso!" ou mensagem de erro</div>
+            </div>
+        </div>
+
+        <!-- MENUS -->
+        <div class="section">
+            <h2>7. Menus do Sistema</h2>
+
+            <h3>Menu Inicial</h3>
+            <div class="menu-item"><strong>1</strong> — Cadastrar (novo usuário)</div>
+            <div class="menu-item"><strong>2</strong> — Login</div>
+            <div class="menu-item"><strong>3</strong> — Sair</div>
+
+            <h3>Menu Principal (pós-login)</h3>
+            <div class="menu-item"><strong>1</strong> — Registrar transação (Create)</div>
+            <div class="menu-item"><strong>2</strong> — Editar transação (Update)</div>
+            <div class="menu-item"><strong>3</strong> — Voltar</div>
+        </div>
+
+        <!-- ALTERAÇÕES NO LOGIN -->
+        <div class="section">
+            <h2>8. Alterações Realizadas</h2>
+
+            <h3>UsuarioDAO.login()</h3>
+            <p>O método <code>login()</code> foi alterado para retornar <code>int</code> (ID do usuário) em vez de <code>boolean</code>,
+            permitindo que o sistema vincule as transações ao usuário logado.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Antes</th>
+                        <th>Depois</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>public boolean login(...)</code><br>Retornava <code>true</code> / <code>false</code></td>
+                        <td><code>public int login(...)</code><br>Retorna o <code>id</code> do usuário ou <code>-1</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Tratamento de valor numérico</h3>
+            <p>A leitura do campo <strong>valor</strong> usa <code>Double.parseDouble()</code> com conversão de vírgula para ponto,
+            garantindo compatibilidade com o locale brasileiro (PT-BR).</p>
+            <div class="code-block">
+<code><span class="type">double</span> valor = <span class="type">Double</span>.<span class="method">parseDouble</span>(
+    scanner.nextLine().trim().<span class="method">replace</span>(<span class="string">","</span>, <span class="string">"."</span>)
+);</code>
+            </div>
+        </div>
+
+        <!-- TESTES -->
+        <div class="section">
+            <h2>9. Testes Realizados</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Caso de Teste</th>
+                        <th>Entrada</th>
+                        <th>Resultado Esperado</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Cadastrar usuário</td>
+                        <td>user: <code>testuser</code>, senha: <code>Teste123$</code></td>
+                        <td>Cadastro realizado com sucesso</td>
+                        <td><span class="badge badge-green">PASSOU</span></td>
+                    </tr>
+                    <tr>
+                        <td>Login</td>
+                        <td>user: <code>testuser</code>, senha: <code>Teste123$</code></td>
+                        <td>Login com retorno do userId</td>
+                        <td><span class="badge badge-green">PASSOU</span></td>
+                    </tr>
+                    <tr>
+                        <td>Criar transação (receita)</td>
+                        <td>receita, R$1500.50, 28/03/2026, Salário, trabalho</td>
+                        <td>Transação inserida no banco</td>
+                        <td><span class="badge badge-green">PASSOU</span></td>
+                    </tr>
+                    <tr>
+                        <td>Editar transação (update)</td>
+                        <td>ID:1, despesa, R$200.00, 28/03/2026, Conta de luz, moradia</td>
+                        <td>Transação atualizada no banco</td>
+                        <td><span class="badge badge-green">PASSOU</span></td>
+                    </tr>
+                    <tr>
+                        <td>Verificar banco</td>
+                        <td>SELECT * FROM transacoes</td>
+                        <td>Dados corretos salvos no SQLite</td>
+                        <td><span class="badge badge-green">PASSOU</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SEGURANÇA -->
+        <div class="section">
+            <h2>10. Segurança</h2>
+            <ul>
+                <li><strong>SQL Injection:</strong> Prevenido com <code>PreparedStatement</code> e parâmetros <code>?</code></li>
+                <li><strong>Validação de entrada:</strong> Valor numérico tratado com <code>try/catch</code> para <code>NumberFormatException</code></li>
+                <li><strong>Integridade referencial:</strong> <code>FOREIGN KEY (usuario_id)</code> garante que transações pertencem a usuários válidos</li>
+                <li><strong>Conexão segura:</strong> Uso de <code>try-with-resources</code> garante fechamento automático das conexões</li>
+            </ul>
+        </div>
+
+        <!-- PRÓXIMOS PASSOS -->
+        <div class="section">
+            <h2>11. Próximos Passos</h2>
+            <div class="warning">
+                <strong>Pendente:</strong> As seguintes funcionalidades ainda precisam ser implementadas:
+            </div>
+            <ul>
+                <li><strong>Read (RF04):</strong> Listar todas as transações do usuário</li>
+                <li><strong>Delete (RF03):</strong> Excluir transações existentes</li>
+                <li><strong>RF05:</strong> Categorização avançada</li>
+                <li><strong>RF06:</strong> Exibição de saldo atual</li>
+                <li><strong>RF07:</strong> Exportação CSV</li>
+                <li><strong>RF08:</strong> Relatórios financeiros</li>
+                <li><strong>RNF04:</strong> Hash de senha (SHA-256/bcrypt)</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>Best Financeiro — UNIGOIÁS • Projeto 1 • Documentação CRUD • Atualizado em 28/03/2026</p>
+        </footer>
+
+    </div>
+</body>
+</html>
