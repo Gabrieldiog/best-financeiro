@@ -1,6 +1,7 @@
 package DAO;
 
 import model.Usuario;
+import model.Read;
 import utils.Conexao;
 
 import java.sql.Connection;
@@ -20,11 +21,12 @@ public class ReadDAO {
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                usuario = new Usuario();
-                usuario.setUsername(rs.getString("username"));
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    usuario = new Usuario();
+                    usuario.setUsername(rs.getString("username"));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -32,32 +34,38 @@ public class ReadDAO {
         return usuario;
     }
 
-    public List<String> listarMovimentacoes(int idUsuario) {
-        String sql = "SELECT tipo, valor, descricao, data_movimentacao FROM movimentacoes WHERE id_usuario = ?";
-        List<String> extratoEmTexto = new ArrayList<>();
+    // Método atualizado para o RF04: Retorna objetos e inclui categoria + ordenação
+    public List<Read> listarMovimentacoes(int idUsuario) {
+        // Adicionada a coluna 'categoria' e a ordenação decrescente por data (ORDER BY)
+        String sql = "SELECT tipo, valor, descricao, data_movimentacao, categoria " +
+                     "FROM movimentacoes WHERE id_usuario = ? " +
+                     "ORDER BY data_movimentacao DESC";
+                     
+        List<Read> extrato = new ArrayList<>();
 
         try (Connection conn = Conexao.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
                     
             ps.setInt(1, idUsuario);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()){
-                String tipo = rs.getString("tipo");
-                double valor = rs.getDouble("valor");
-                String descricao = rs.getString("descricao");
-                String data = rs.getString("data_movimentacao");
-                
-                String linhaFormatada = String.format("[%s] | %s | R$ %.2f | %s", data, tipo, valor, descricao);
-
-                extratoEmTexto.add(linhaFormatada);
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Read movimentacao = new Read();
+                    
+                    movimentacao.setTipo(rs.getString("tipo"));
+                    movimentacao.setValor(rs.getDouble("valor"));
+                    movimentacao.setDescricao(rs.getString("descricao"));
+                    movimentacao.setDataMovimentacao(rs.getString("data_movimentacao"));
+                    movimentacao.setCategoria(rs.getString("categoria"));
+                    
+                    extrato.add(movimentacao);
+                }
             }
 
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         
-        return extratoEmTexto;
-        /*test */
+        return extrato;
     }
 }
