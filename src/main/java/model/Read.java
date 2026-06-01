@@ -9,11 +9,11 @@ public class Read {
     private String dataMovimentacao;
     private String categoria;
 
-    // Construtor vazio padrão
+    
     public Read() {
     }
 
-    // Construtor completo
+    
     public Read(int id, int idUsuario, String tipo, double valor, String descricao, String dataMovimentacao, String categoria) {
         this.id = id;
         this.idUsuario = idUsuario;
@@ -24,7 +24,7 @@ public class Read {
         this.categoria = categoria;
     }
 
-    // Métodos Getters e Setters
+    
     public int getId() {
         return id;
     }
