@@ -34,9 +34,8 @@ public class ReadDAO {
         return usuario;
     }
 
-    // Método atualizado para o RF04: Retorna objetos e inclui categoria + ordenação
+    
     public List<Read> listarMovimentacoes(int idUsuario) {
-        // Adicionada a coluna 'categoria' e a ordenação decrescente por data (ORDER BY)
         String sql = "SELECT tipo, valor, descricao, data_movimentacao, categoria " +
                      "FROM movimentacoes WHERE id_usuario = ? " +
                      "ORDER BY data_movimentacao DESC";
