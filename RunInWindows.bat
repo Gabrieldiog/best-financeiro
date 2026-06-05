@@ -1,7 +1,9 @@
 @echo off
 cd /d "%~dp0"
 
-javac -cp "lib/*" -d out src/main/java/utils/Conexao.java src/main/java/model/Usuario.java src/main/java/DAO/UsuarioDAO.java src/main/java/App.java
+dir /s /b src\main\java\*.java > sources.txt
+javac -cp "lib/*" -d out @sources.txt
+del sources.txt
 
 if errorlevel 1 (
     echo ERRO AO COMPILAR

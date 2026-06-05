@@ -1,29 +1,57 @@
 package DAO;
 
-import java.sql.*;
+import utils.Conexao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class GastosMensaisDAO {
 
-    private Connection conn;
+    public double getDespesasDoMes(int idUsuario, String anoMes) {
+        return getTotalDoMes(idUsuario, "DESPESA", anoMes);
+    }
 
-    public GastosMensaisDAO() {}
+    public double getReceitasDoMes(int idUsuario, String anoMes) {
+        return getTotalDoMes(idUsuario, "RECEITA", anoMes);
+    }
 
-    public double calcularGastosMensais(int clienteId, int mes, int ano) throws SQLException {
-        String sql = "SELECT SUM(ABS(valor)) AS total " +
-                     "FROM transacoes " +
-                     "WHERE cliente_id = ? AND valor < 0 " +
-                     "AND MONTH(data) = ? AND YEAR(data) = ?";
-        
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, clienteId);
-            stmt.setInt(2, mes);
-            stmt.setInt(3, ano);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return rs.getDouble("total");
+    public int getDiasComMovimentacao(int idUsuario, String anoMes) {
+        String sql = "SELECT COUNT(DISTINCT data_movimentacao) AS dias FROM movimentacoes "
+                + "WHERE id_usuario = ? AND strftime('%Y-%m', data_movimentacao) = ?";
+        try (Connection conn = Conexao.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idUsuario);
+            ps.setString(2, anoMes);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("dias");
+                }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    private double getTotalDoMes(int idUsuario, String tipo, String anoMes) {
+        String sql = "SELECT COALESCE(SUM(valor * frequencia), 0) AS total FROM movimentacoes "
+                + "WHERE id_usuario = ? AND tipo = ? "
+                + "AND strftime('%Y-%m', data_movimentacao) = ?";
+        try (Connection conn = Conexao.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idUsuario);
+            ps.setString(2, tipo);
+            ps.setString(3, anoMes);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDouble("total");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return 0.0;
     }
 }
-    
