@@ -2,6 +2,7 @@ package DAO;
 
 import model.Usuario;
 import utils.Conexao;
+import utils.Hash;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -28,7 +29,7 @@ public class UsuarioDAO {
         try (Connection conn = Conexao.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, usuario.getUsername());
-            ps.setString(2, usuario.getSenha());
+            ps.setString(2, Hash.gerarHash(usuario.getSenha()));
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -37,17 +38,22 @@ public class UsuarioDAO {
         }
     }
 
-    public boolean login(String username, String senha) {
-        String sql = "SELECT id FROM usuarios WHERE username = ? AND senha = ?";
+    public Usuario login(String username, String senha) {
+        String sql = "SELECT id, username, senha FROM usuarios WHERE username = ?";
         try (Connection conn = Conexao.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, username);
-            ps.setString(2, senha);
-            ResultSet rs = ps.executeQuery();
-            return rs.next();
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next() && Hash.verificar(senha, rs.getString("senha"))) {
+                    Usuario usuario = new Usuario();
+                    usuario.setId(rs.getInt("id"));
+                    usuario.setUsername(rs.getString("username"));
+                    return usuario;
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+        return null;
     }
 }

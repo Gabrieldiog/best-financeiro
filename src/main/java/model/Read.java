@@ -8,12 +8,13 @@ public class Read {
     private String descricao;
     private String dataMovimentacao;
     private String categoria;
+    private int frequencia = 1;
 
-    
+
     public Read() {
     }
 
-    
+
     public Read(int id, int idUsuario, String tipo, double valor, String descricao, String dataMovimentacao, String categoria) {
         this.id = id;
         this.idUsuario = idUsuario;
@@ -22,6 +23,18 @@ public class Read {
         this.descricao = descricao;
         this.dataMovimentacao = dataMovimentacao;
         this.categoria = categoria;
+    }
+
+    public int getFrequencia() {
+        return frequencia;
+    }
+
+    public void setFrequencia(int frequencia) {
+        this.frequencia = frequencia;
+    }
+
+    public double getValorMensal() {
+        return valor * frequencia;
     }
 
     

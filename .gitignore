@@ -4,3 +4,10 @@
 *.class
 #nao enviar a pasta .vscode pro git
 .vscode/
+.claude
+
+# arquivos gerados em runtime
+financeiro.db
+*.csv
+excel/
+out/

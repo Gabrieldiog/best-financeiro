@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documentação - Best Financeiro</title>
+    <title>Documentacao - Best Financeiro</title>
     <style>
         * {
             margin: 0;
@@ -216,331 +216,255 @@
             background: rgba(88, 166, 255, 0.2);
             color: #58a6ff;
         }
+
+        .ok {
+            color: #4ecca3;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>💰 Best Financeiro</h1>
-            <p class="subtitle">Sistema de Gestão Financeira via Terminal</p>
+            <p class="subtitle">Sistema de Gestao Financeira via Terminal</p>
             <div style="margin-top: 15px;">
-                <span class="badge badge-java">Java</span>
+                <span class="badge badge-java">Java 21</span>
                 <span class="badge badge-terminal">Terminal</span>
-                <span class="badge badge-db">Banco de Dados</span>
+                <span class="badge badge-db">SQLite</span>
             </div>
         </header>
 
-        <!-- Visão Geral -->
         <section class="section">
-            <h2>📋 Visão Geral do Sistema</h2>
+            <h2>📋 Visao Geral do Sistema</h2>
             <p>
-                O <strong>Best Financeiro</strong> é um sistema de gestão financeira pessoal desenvolvido em Java, 
-                que opera inteiramente via linha de comando (terminal). O sistema implementa um CRUD completo 
-                para controle de receitas e despesas, permitindo ao usuário gerenciar suas finanças de forma 
-                simples e eficiente.
+                O <strong>Best Financeiro</strong> e um sistema de gestao financeira pessoal desenvolvido em Java,
+                que opera inteiramente via linha de comando (terminal). Cada usuario tem seu proprio login e
+                gerencia suas receitas e despesas de forma isolada, com saldo, relatorios, projecao de gastos,
+                sugestao de economia e exportacao de extrato em CSV.
             </p>
             <div class="info">
-                <strong>ℹ️ Tipo de Aplicação:</strong> Console Application (CLI - Command Line Interface)
+                <strong>ℹ️ Tipo de Aplicacao:</strong> Aplicacao de Console (CLI) com persistencia em banco
+                relacional SQLite via JDBC.
             </div>
         </section>
 
-        <!-- Estrutura de Pastas -->
         <section class="section">
             <h2>📁 Estrutura de Pastas</h2>
             <div class="folder-structure">
 <pre>
 <span class="folder">best-financeiro/</span>
-├── <span class="file">README.md</span>                    # Documentação do projeto e guia Git
-├── <span class="folder">docs/</span>                       # Documentação do sistema
-│   └── <span class="file">documentacao.html</span>        # Esta documentação
-└── <span class="folder">src/</span>                        # Código-fonte
-    └── <span class="folder">main/</span>
-        ├──<span class="folder">java/</span>             # Classe principal (ponto de entrada)
-        ├── <span class="folder">model/</span>               # Entidades do sistema
-        │   ├── <span class="file">Transacao.java</span>   # Modelo de transação
-        │   ├── <span class="file">Receita.java</span>     # Modelo de receita
-        │   └── <span class="file">Despesa.java</span>     # Modelo de despesa
-        ├── <span class="folder">dao/</span>                 # Data Access Object
-        │   ├── <span class="file">ConexaoDB.java</span>   # Gerenciador de conexão
-        │   └── <span class="file">TransacaoDAO.java</span># Operações CRUD
-        ├── <span class="folder">service/</span>             # Regras de negócio
-        │   └── <span class="file">FinanceiroService.java</span>
-        └── <span class="folder">util/</span>                # Utilitários
-            ├── <span class="file">Menu.java</span>        # Interface do menu
-            └── <span class="file">Validador.java</span>   # Validação de dados
+├── <span class="file">README.md</span>                     # Guia do projeto e fluxo Git
+├── <span class="file">run.sh</span>                        # Compila e executa (Linux/Mac)
+├── <span class="file">RunInWindows.bat</span>              # Compila e executa (Windows)
+├── <span class="file">financeiro.db</span>                 # Banco SQLite (gerado no 1o run)
+├── <span class="folder">lib/</span>                          # Dependencias (driver JDBC do SQLite)
+├── <span class="folder">docs/</span>                         # Documentacao do sistema
+└── <span class="folder">src/main/java/</span>
+    ├── <span class="file">App.java</span>                  # Ponto de entrada e menus
+    ├── <span class="folder">model/</span>
+    │   ├── <span class="file">Usuario.java</span>          # Entidade usuario
+    │   └── <span class="file">Read.java</span>             # Entidade movimentacao
+    ├── <span class="folder">DAO/</span>
+    │   ├── <span class="file">UsuarioDAO.java</span>       # Cadastro, login, checagem de username
+    │   ├── <span class="file">CreateDAO.java</span>        # Inserir movimentacao
+    │   ├── <span class="file">ReadDAO.java</span>          # Listar e buscar movimentacao
+    │   ├── <span class="file">UpdateDAO.java</span>        # Editar movimentacao
+    │   ├── <span class="file">DeleteDAO.java</span>        # Excluir movimentacao
+    │   ├── <span class="file">RelatorioDAO.java</span>     # Saldo, totais e gastos por categoria
+    │   └── <span class="file">GastosMensaisDAO.java</span> # Despesas do mes
+    ├── <span class="folder">service/</span>
+    │   └── <span class="file">Financas.java</span>         # Projecao de gastos e sugestao de economia
+    └── <span class="folder">utils/</span>
+        ├── <span class="file">Conexao.java</span>          # Conexao e criacao das tabelas
+        ├── <span class="file">Hash.java</span>             # Hash de senha (SHA-256 + salt)
+        ├── <span class="file">Moeda.java</span>            # Formatacao em Real (R$)
+        ├── <span class="file">DataUtil.java</span>         # Conversao de datas
+        └── <span class="file">ExportadorCSV.java</span>    # Exportacao do extrato
 </pre>
             </div>
 
-            <h3>Descrição de Cada Pasta</h3>
+            <h3>Responsabilidade de cada camada</h3>
             <table>
                 <thead>
                     <tr>
-                        <th>Pasta</th>
+                        <th>Camada</th>
                         <th>Responsabilidade</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><code>src/main/java/com/gestao/</code></td>
-                        <td>Pacote raiz do projeto contendo todas as classes Java</td>
+                        <td><code>App</code></td>
+                        <td>Interface de terminal: menus, leitura e validacao de entrada do usuario</td>
                     </tr>
                     <tr>
                         <td><code>model/</code></td>
-                        <td>Classes de entidade que representam os dados (Transacao, Receita, Despesa)</td>
+                        <td>Entidades de dados: Usuario e Read (movimentacao financeira)</td>
                     </tr>
                     <tr>
-                        <td><code>dao/</code></td>
-                        <td>Data Access Object - responsável pela comunicação com o banco de dados</td>
+                        <td><code>DAO/</code></td>
+                        <td>Acesso ao banco: operacoes de CRUD e consultas de relatorio</td>
                     </tr>
                     <tr>
                         <td><code>service/</code></td>
-                        <td>Contém as regras de negócio e lógica da aplicação</td>
+                        <td>Regras de negocio: projecao de gastos e sugestao de economia</td>
                     </tr>
                     <tr>
-                        <td><code>util/</code></td>
-                        <td>Classes utilitárias como menu de interface e validadores</td>
-                    </tr>
-                    <tr>
-                        <td><code>docs/</code></td>
-                        <td>Documentação do projeto</td>
+                        <td><code>utils/</code></td>
+                        <td>Apoio: conexao, hash de senha, formatacao de moeda e data, CSV</td>
                     </tr>
                 </tbody>
             </table>
         </section>
 
-        <!-- Modus Operandi -->
         <section class="section">
             <h2>⚙️ Modus Operandi do Sistema</h2>
-            
-            <h3>Fluxo de Execução</h3>
+
+            <h3>Fluxo de Execucao</h3>
             <div class="diagram">
-                <div class="diagram-box">Iniciar App</div>
+                <div class="diagram-box">App (menu)</div>
                 <span class="arrow">→</span>
-                <div class="diagram-box">Menu Principal</div>
+                <div class="diagram-box">DAO / Service</div>
                 <span class="arrow">→</span>
-                <div class="diagram-box">Operação CRUD</div>
+                <div class="diagram-box">Conexao JDBC</div>
                 <span class="arrow">→</span>
-                <div class="diagram-box">Banco de Dados</div>
+                <div class="diagram-box">SQLite</div>
             </div>
 
-            <h3>Menu Principal</h3>
-            <p>Ao executar o sistema, o usuário é apresentado a um menu interativo com as seguintes opções:</p>
-            
-            <div class="menu-item">
-                <strong>[1] Cadastrar Receita</strong><br>
-                Permite registrar uma nova entrada de dinheiro (salário, vendas, etc.)
-            </div>
-            
-            <div class="menu-item">
-                <strong>[2] Cadastrar Despesa</strong><br>
-                Permite registrar uma saída de dinheiro (contas, compras, etc.)
-            </div>
-            
-            <div class="menu-item">
-                <strong>[3] Listar Transações</strong><br>
-                Exibe todas as receitas e despesas cadastradas
-            </div>
-            
-            <div class="menu-item">
-                <strong>[4] Consultar Saldo</strong><br>
-                Mostra o saldo atual (receitas - despesas)
-            </div>
-            
-            <div class="menu-item">
-                <strong>[5] Editar Transação</strong><br>
-                Permite modificar uma transação existente
-            </div>
-            
-            <div class="menu-item">
-                <strong>[6] Excluir Transação</strong><br>
-                Remove uma transação do sistema
-            </div>
-            
-            <div class="menu-item">
-                <strong>[7] Relatório Mensal</strong><br>
-                Gera um resumo financeiro do mês
-            </div>
-            
-            <div class="menu-item">
-                <strong>[0] Sair</strong><br>
-                Encerra o programa
-            </div>
+            <h3>Menu Inicial</h3>
+            <p>Ao iniciar, o sistema pede autenticacao. A senha e armazenada com hash, nunca em texto plano.</p>
+            <div class="menu-item"><strong>[1] Cadastrar</strong><br>Cria um novo usuario com validacao de senha forte.</div>
+            <div class="menu-item"><strong>[2] Login</strong><br>Autentica o usuario e abre o menu principal.</div>
+            <div class="menu-item"><strong>[3] Sair</strong><br>Encerra o programa.</div>
+
+            <h3>Menu do Usuario (apos login)</h3>
+            <div class="menu-item"><strong>[1] Registrar movimentacao</strong><br>Cadastra receita ou despesa com tipo, valor, quantas vezes por mes acontece, categoria, descricao e data. Da pra criar categorias novas na hora.</div>
+            <div class="menu-item"><strong>[2] Listar movimentacoes</strong><br>Mostra todas as movimentacoes do usuario.</div>
+            <div class="menu-item"><strong>[3] Editar movimentacao</strong><br>Altera uma movimentacao existente pelo id.</div>
+            <div class="menu-item"><strong>[4] Excluir movimentacao</strong><br>Remove uma movimentacao (com confirmacao).</div>
+            <div class="menu-item"><strong>[5] Ver saldo</strong><br>Exibe total de receitas, despesas e saldo atual.</div>
+            <div class="menu-item"><strong>[6] Relatorios</strong><br>Totais e gastos por categoria com percentual.</div>
+            <div class="menu-item"><strong>[7] Projecao de gastos do mes</strong><br>Estima o gasto total do mes com base no ritmo atual.</div>
+            <div class="menu-item"><strong>[8] Sugestao de economia</strong><br>Aponta a categoria de maior gasto e quanto da pra economizar.</div>
+            <div class="menu-item"><strong>[9] Exportar CSV</strong><br>Gera um arquivo de extrato com todas as movimentacoes.</div>
+            <div class="menu-item"><strong>[10] Logout</strong><br>Volta para o menu inicial.</div>
         </section>
 
-        <!-- Operações CRUD -->
         <section class="section">
-            <h2>🔄 Operações CRUD</h2>
-            
+            <h2>🔄 Operacoes CRUD (movimentacoes)</h2>
             <table>
                 <thead>
                     <tr>
-                        <th>Operação</th>
-                        <th>Descrição</th>
-                        <th>Dados Necessários</th>
+                        <th>Operacao</th>
+                        <th>Classe</th>
+                        <th>Dados necessarios</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><strong>CREATE</strong></td>
-                        <td>Cadastrar nova transação</td>
-                        <td>Tipo, Descrição, Valor, Data, Categoria</td>
-                    </tr>
-                    <tr>
-                        <td><strong>READ</strong></td>
-                        <td>Listar/Consultar transações</td>
-                        <td>Filtros opcionais (data, tipo, categoria)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>UPDATE</strong></td>
-                        <td>Editar transação existente</td>
-                        <td>ID da transação + novos dados</td>
-                    </tr>
-                    <tr>
-                        <td><strong>DELETE</strong></td>
-                        <td>Excluir transação</td>
-                        <td>ID da transação</td>
-                    </tr>
+                    <tr><td><strong>CREATE</strong></td><td>CreateDAO</td><td>Tipo, valor, categoria, descricao, data</td></tr>
+                    <tr><td><strong>READ</strong></td><td>ReadDAO</td><td>Id do usuario (lista) ou id da movimentacao</td></tr>
+                    <tr><td><strong>UPDATE</strong></td><td>UpdateDAO</td><td>Id da movimentacao + novos dados</td></tr>
+                    <tr><td><strong>DELETE</strong></td><td>DeleteDAO</td><td>Id da movimentacao</td></tr>
                 </tbody>
             </table>
         </section>
 
-        <!-- Como Executar -->
-        <section class="section">
-            <h2>🚀 Como Executar o Sistema</h2>
-            
-            <h3>Pré-requisitos</h3>
-            <ul>
-                <li>Java JDK 11 ou superior instalado</li>
-                <li>Banco de dados configurado (MySQL/PostgreSQL)</li>
-                <li>Terminal/Prompt de comando</li>
-            </ul>
-
-            <h3>Comandos de Execução</h3>
-            <div class="code-block">
-                <code>
-# Navegar até a pasta do projeto<br>
-cd best-financeiro<br><br>
-
-# Compilar o projeto<br>
-javac -d bin src/main/java/com/gestao/*.java<br><br>
-
-# Executar a aplicação<br>
-java -cp bin com.gestao.App
-                </code>
-            </div>
-
-            <div class="warning">
-                <strong>⚠️ Atenção:</strong> Certifique-se de que o banco de dados está configurado 
-                e rodando antes de iniciar a aplicação.
-            </div>
-        </section>
-
-        <!-- Modelo de Dados -->
         <section class="section">
             <h2>📊 Modelo de Dados</h2>
-            
-            <h3>Entidade: Transação</h3>
+
+            <h3>Tabela: usuarios</h3>
             <table>
                 <thead>
-                    <tr>
-                        <th>Campo</th>
-                        <th>Tipo</th>
-                        <th>Descrição</th>
-                    </tr>
+                    <tr><th>Campo</th><th>Tipo</th><th>Descricao</th></tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>id</td>
-                        <td>Integer</td>
-                        <td>Identificador único da transação</td>
-                    </tr>
-                    <tr>
-                        <td>tipo</td>
-                        <td>Enum</td>
-                        <td>RECEITA ou DESPESA</td>
-                    </tr>
-                    <tr>
-                        <td>descricao</td>
-                        <td>String</td>
-                        <td>Descrição da transação</td>
-                    </tr>
-                    <tr>
-                        <td>valor</td>
-                        <td>Double</td>
-                        <td>Valor monetário</td>
-                    </tr>
-                    <tr>
-                        <td>data</td>
-                        <td>LocalDate</td>
-                        <td>Data da transação</td>
-                    </tr>
-                    <tr>
-                        <td>categoria</td>
-                        <td>String</td>
-                        <td>Categoria (Alimentação, Transporte, etc.)</td>
-                    </tr>
+                    <tr><td>id</td><td>INTEGER PK</td><td>Identificador do usuario</td></tr>
+                    <tr><td>username</td><td>TEXT unico</td><td>Nome de login</td></tr>
+                    <tr><td>senha</td><td>TEXT</td><td>Hash da senha no formato salt:hash (Base64)</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Tabela: movimentacoes</h3>
+            <table>
+                <thead>
+                    <tr><th>Campo</th><th>Tipo</th><th>Descricao</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>id</td><td>INTEGER PK</td><td>Identificador da movimentacao</td></tr>
+                    <tr><td>id_usuario</td><td>INTEGER FK</td><td>Dono da movimentacao (usuarios.id)</td></tr>
+                    <tr><td>tipo</td><td>TEXT</td><td>RECEITA ou DESPESA</td></tr>
+                    <tr><td>valor</td><td>REAL</td><td>Valor em Real (sempre positivo)</td></tr>
+                    <tr><td>descricao</td><td>TEXT</td><td>Descricao livre</td></tr>
+                    <tr><td>data_movimentacao</td><td>TEXT</td><td>Data no formato yyyy-MM-dd</td></tr>
+                    <tr><td>categoria</td><td>TEXT</td><td>Categoria da movimentacao</td></tr>
+                    <tr><td>frequencia</td><td>INTEGER</td><td>Quantas vezes por mes acontece (padrao 1). Usada na projecao e analise: valor x frequencia = gasto mensal</td></tr>
                 </tbody>
             </table>
         </section>
 
-        <!-- Exemplo de Uso -->
         <section class="section">
-            <h2>💻 Exemplo de Uso no Terminal</h2>
+            <h2>🚀 Como Executar</h2>
+            <h3>Pre-requisitos</h3>
+            <ul>
+                <li>Java JDK 17 ou superior (testado no JDK 21)</li>
+                <li>Terminal / Prompt de comando</li>
+            </ul>
+            <p>O driver do SQLite ja vem na pasta <code>lib/</code> e o banco e criado sozinho no primeiro uso.</p>
+
+            <h3>Comandos</h3>
             <div class="code-block">
-                <code style="color: #7ee787;">
-========================================<br>
-       BEST FINANCEIRO v1.0<br>
-========================================<br><br>
-
-[1] Cadastrar Receita<br>
-[2] Cadastrar Despesa<br>
-[3] Listar Transações<br>
-[4] Consultar Saldo<br>
-[5] Editar Transação<br>
-[6] Excluir Transação<br>
-[7] Relatório Mensal<br>
-[0] Sair<br><br>
-
-Digite sua opção: <span style="color: #58a6ff;">1</span><br><br>
-
---- CADASTRAR RECEITA ---<br>
-Descrição: <span style="color: #58a6ff;">Salário Janeiro</span><br>
-Valor: <span style="color: #58a6ff;">3500.00</span><br>
-Data (dd/mm/aaaa): <span style="color: #58a6ff;">05/01/2026</span><br>
-Categoria: <span style="color: #58a6ff;">Salário</span><br><br>
-
-<span style="color: #4ecca3;">✓ Receita cadastrada com sucesso!</span>
+                <code>
+# Linux / Mac<br>
+./run.sh<br><br>
+# Windows<br>
+RunInWindows.bat
                 </code>
+            </div>
+            <div class="info">
+                <strong>ℹ️ Build manual:</strong> <code>javac -cp "lib/*" -d out $(find src/main/java -name "*.java") &amp;&amp; java -cp "out:lib/*" App</code>
             </div>
         </section>
 
-        <!-- Tecnologias -->
+        <section class="section">
+            <h2>✅ Requisitos Atendidos</h2>
+            <table>
+                <thead>
+                    <tr><th>Requisito</th><th>Onde</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>RF01 Cadastro e login</td><td><span class="ok">App + UsuarioDAO</span></td></tr>
+                    <tr><td>RF02 Registrar receita/despesa</td><td><span class="ok">CreateDAO</span></td></tr>
+                    <tr><td>RF03 Editar e excluir</td><td><span class="ok">UpdateDAO + DeleteDAO</span></td></tr>
+                    <tr><td>RF04 Listar movimentacoes</td><td><span class="ok">ReadDAO</span></td></tr>
+                    <tr><td>RF05 Categorizar</td><td><span class="ok">App (categorias por tipo)</span></td></tr>
+                    <tr><td>RF06 Saldo atual</td><td><span class="ok">RelatorioDAO</span></td></tr>
+                    <tr><td>RF07 Exportar CSV</td><td><span class="ok">ExportadorCSV</span></td></tr>
+                    <tr><td>RF08 Relatorios por categoria/total</td><td><span class="ok">RelatorioDAO</span></td></tr>
+                    <tr><td>RF09 Projecao de gastos</td><td><span class="ok">Financas + GastosMensaisDAO</span></td></tr>
+                    <tr><td>RF10 Sugestao de economia</td><td><span class="ok">Financas</span></td></tr>
+                    <tr><td>RNF01 Java</td><td><span class="ok">Sim</span></td></tr>
+                    <tr><td>RNF02 Banco relacional</td><td><span class="ok">SQLite</span></td></tr>
+                    <tr><td>RNF04 Senha com hash</td><td><span class="ok">Hash (SHA-256 + salt)</span></td></tr>
+                    <tr><td>RNF05 Operar em Real</td><td><span class="ok">Moeda</span></td></tr>
+                    <tr><td>RNF07 Apenas terminal</td><td><span class="ok">Sim</span></td></tr>
+                </tbody>
+            </table>
+        </section>
+
         <section class="section">
             <h2>🛠️ Tecnologias Utilizadas</h2>
             <ul>
-                <li><strong>Java 11+</strong> - Linguagem de programação principal</li>
-                <li><strong>JDBC</strong> - Conexão com banco de dados</li>
-                <li><strong>MySQL/PostgreSQL</strong> - Banco de dados relacional</li>
-                <li><strong>Scanner</strong> - Entrada de dados via terminal</li>
-                <li><strong>Git</strong> - Controle de versão</li>
+                <li><strong>Java 21</strong> - Linguagem principal</li>
+                <li><strong>JDBC</strong> - Acesso ao banco</li>
+                <li><strong>SQLite</strong> - Banco de dados relacional</li>
+                <li><strong>SHA-256 + salt</strong> - Hash de senha</li>
+                <li><strong>Scanner</strong> - Entrada via terminal</li>
+                <li><strong>Git</strong> - Controle de versao</li>
             </ul>
         </section>
 
-        <!-- Contribuição -->
-        <section class="section">
-            <h2>👥 Guia de Contribuição</h2>
-            <ol>
-                <li>Sempre atualize seu repositório local: <code>git pull origin main</code></li>
-                <li>Crie uma branch para sua feature: <code>git checkout -b feature/nome-da-feature</code></li>
-                <li>Faça suas alterações e adicione: <code>git add .</code></li>
-                <li>Commit suas mudanças: <code>git commit -m "Descrição das alterações"</code></li>
-                <li>Envie para o GitHub: <code>git push origin sua-branch</code></li>
-                <li>Abra um Pull Request para revisão</li>
-            </ol>
-        </section>
-
         <footer>
-            <p>📄 Documentação Best Financeiro | Desenvolvido em Java | 2026</p>
+            <p>📄 Documentacao Best Financeiro | Desenvolvido em Java | 2026</p>
         </footer>
     </div>
 </body>
