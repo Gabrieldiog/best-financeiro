@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Best Financeiro — Apresentação</title>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --card: #111827;
+      --muted: #9ca3af;
+      --text: #e5e7eb;
+      --accent: #4ecca3;
+      --accent2: #4ecca3;
+      --line: #1f2937;
+      --warn: #fbbf24;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .deck { height: 100%; position: relative; }
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      padding: 48px 64px 80px;
+      background: linear-gradient(160deg, #05070a 0%, var(--bg) 45%, #0f172a 100%);
+      opacity: 0;
+      transform: translateX(24px);
+      transition: opacity .35s ease, transform .35s ease;
+    }
+    .slide.active {
+      display: flex;
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 12px;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+    }
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+    h1 span { color: var(--accent); }
+    h2 {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      color: var(--accent2);
+      margin-bottom: 24px;
+    }
+    .lead {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--muted);
+      max-width: 720px;
+      line-height: 1.6;
+    }
+    ul { margin: 16px 0 0 24px; line-height: 1.75; }
+    li { margin: 8px 0; }
+    li strong { color: #f3f4f6; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 28px;
+      max-width: 900px;
+    }
+    .card {
+      background: rgba(17, 24, 39, .7);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px;
+    }
+    .card b {
+      display: block;
+      color: var(--accent);
+      margin-bottom: 6px;
+      font-size: .95rem;
+    }
+    .card span { color: var(--muted); font-size: .9rem; }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      max-width: 960px;
+      align-items: start;
+    }
+    @media (max-width: 768px) {
+      .slide { padding: 32px 24px 72px; }
+      .two-col { grid-template-columns: 1fr; }
+    }
+
+    pre {
+      background: #0d1117;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px 20px;
+      font-size: .85rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      color: #79c0ff;
+      margin-top: 16px;
+      max-width: 640px;
+    }
+    code { font-family: ui-monospace, Consolas, monospace; }
+
+    table {
+      width: 100%;
+      max-width: 900px;
+      border-collapse: collapse;
+      margin-top: 16px;
+      font-size: .9rem;
+    }
+    th, td {
+      padding: 10px 14px;
+      text-align: left;
+      border: 1px solid var(--line);
+    }
+    th {
+      background: rgba(34, 197, 94, .12);
+      color: var(--accent);
+    }
+    tr:nth-child(even) { background: rgba(255,255,255,.02); }
+    .ok { color: var(--accent); }
+
+    .flow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-top: 24px;
+      max-width: 800px;
+    }
+    .box {
+      background: rgba(34, 197, 94, .15);
+      border: 2px solid var(--accent);
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+    .arrow { color: var(--accent); font-size: 1.5rem; }
+
+    .highlight {
+      border-left: 4px solid var(--warn);
+      padding: 14px 18px;
+      background: rgba(251, 191, 36, .08);
+      border-radius: 0 10px 10px 0;
+      margin-top: 20px;
+      max-width: 720px;
+    }
+
+    .nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 24px;
+      background: rgba(11, 15, 20, .92);
+      border-top: 1px solid var(--line);
+      z-index: 10;
+    }
+    .nav button {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--line);
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: .9rem;
+    }
+    .nav button:hover { border-color: var(--accent); color: var(--accent); }
+    .nav button:disabled { opacity: .35; cursor: not-allowed; }
+    .counter { color: var(--muted); font-size: .85rem; }
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: var(--accent);
+      transition: width .3s ease;
+      z-index: 10;
+    }
+    .team { margin-top: 20px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+
+  <div class="deck" id="deck">
+
+    <!-- Slide 1 -->
+    <section class="slide active">
+      <span class="tag">UNIGOIÁS • Projeto 1 • Gestão Financeira</span>
+      <h1><span>Best Financeiro</span></h1>
+      <p class="lead">
+        Sistema de gestão financeira pessoal em Java, operado via terminal.
+        Controle de receitas e despesas, relatórios, projeção de gastos e sugestões de economia.
+      </p>
+      <div class="grid">
+        <div class="card"><b>Java 21</b><span>Linguagem principal</span></div>
+        <div class="card"><b>SQLite</b><span>Banco relacional</span></div>
+        <div class="card"><b>Terminal</b><span>Interface CLI</span></div>
+        <div class="card"><b>Real (R$)</b><span>Moeda única</span></div>
+      </div>
+      <p class="team"><strong>Integrantes:</strong> Gabriel Diogo, Guilherme, David, Patrick Aroha e Fabrício</p>
+    </section>
+
+    <!-- Slide 2 -->
+    <section class="slide">
+      <h2>O problema</h2>
+      <p class="lead">
+        Muitas pessoas não sabem para onde vai o dinheiro, gastam além do planejado
+        e chegam ao fim do mês sem entender o saldo negativo.
+      </p>
+      <ul>
+        <li>Falta de visão clara dos gastos por categoria</li>
+        <li>Dificuldade em comparar meses e identificar padrões</li>
+        <li>Projeções imprecisas quando despesas são recorrentes (ex.: almoço diário)</li>
+      </ul>
+      <div class="highlight">
+        <strong>Nossa resposta:</strong> centralizar movimentações, categorizar gastos,
+        calcular projeções com frequência mensal e sugerir onde economizar.
+      </div>
+    </section>
+
+    <!-- Slide 3 -->
+    <section class="slide">
+      <h2>Objetivo do sistema</h2>
+      <p class="lead">
+        Oferecer controle completo das finanças pessoais: registro de receitas e despesas,
+        saldo, relatórios, projeção e análise — transformando dados em decisões conscientes.
+      </p>
+      <div class="two-col">
+        <div>
+          <h3 style="color:#f3f4f6;margin-bottom:10px">Público-alvo</h3>
+          <p class="lead">Pessoas físicas que querem organizar e acompanhar finanças pessoais no dia a dia.</p>
+        </div>
+        <div>
+          <h3 style="color:#f3f4f6;margin-bottom:10px">Limitações</h3>
+          <ul>
+            <li>Apenas terminal (sem web/mobile)</li>
+            <li>Somente Real (R$)</li>
+            <li>Sem notificações automáticas</li>
+            <li>Projeções baseadas em histórico, sem IA</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 4 -->
+    <section class="slide">
+      <h2>Arquitetura em camadas</h2>
+      <div class="flow">
+        <div class="box">App</div><span class="arrow">→</span>
+        <div class="box">DAO / Service</div><span class="arrow">→</span>
+        <div class="box">Conexão JDBC</div><span class="arrow">→</span>
+        <div class="box">SQLite</div>
+      </div>
+      <table>
+        <thead><tr><th>Camada</th><th>Responsabilidade</th></tr></thead>
+        <tbody>
+          <tr><td><code>App.java</code></td><td>Menus, leitura e validação no terminal</td></tr>
+          <tr><td><code>model/</code></td><td>Entidades: Usuario, Read, Projecao, AnaliseFinanceira</td></tr>
+          <tr><td><code>DAO/</code></td><td>CRUD e consultas (RelatorioDAO, GastosMensaisDAO…)</td></tr>
+          <tr><td><code>service/</code></td><td>Regras de negócio: projeção e análise (Financas)</td></tr>
+          <tr><td><code>utils/</code></td><td>Hash, Moeda, DataUtil, ExportadorCSV, Conexao</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Slide 5 -->
+    <section class="slide">
+      <h2>Funcionalidades principais</h2>
+      <div class="grid">
+        <div class="card"><b>Cadastro & Login</b><span>Senha com SHA-256 + salt</span></div>
+        <div class="card"><b>CRUD</b><span>Receitas e despesas com categorias</span></div>
+        <div class="card"><b>Saldo & Relatórios</b><span>Totais e % por categoria</span></div>
+        <div class="card"><b>Frequência mensal</b><span>Valor × vezes/mês = gasto real</span></div>
+        <div class="card"><b>Projeção</b><span>Previsão de gasto e saldo do mês</span></div>
+        <div class="card"><b>Análise</b><span>Diagnóstico e dicas de economia</span></div>
+        <div class="card"><b>Export CSV</b><span>Extrato para Excel/Sheets</span></div>
+        <div class="card"><b>Multi-usuário</b><span>Dados isolados por login</span></div>
+      </div>
+    </section>
+
+    <!-- Slide 6 -->
+    <section class="slide">
+      <h2>Diferencial: frequência mensal</h2>
+      <p class="lead">
+        Cada despesa registra <strong>quantas vezes por mês</strong> acontece.
+        A projeção usa <code>valor × frequência</code>, não só o valor unitário.
+      </p>
+      <pre>
+Aluguel (Moradia):     R$ 1.200,00 x 1  = R$ 1.200,00/mês
+Almoço (Alimentação): R$    20,00 x 22 = R$   440,00/mês
+Cafezinho:            R$     8,00 x 30 = R$   240,00/mês
+
+>> Gasto mensal previsto: R$ 2.530,00
+>> Renda mensal:          R$ 4.300,00
+>> Sobra prevista:        R$ 1.770,00</pre>
+    </section>
+
+    <!-- Slide 7 -->
+    <section class="slide">
+      <h2>Análise e sugestão de economia</h2>
+      <ul>
+        <li>Taxa de comprometimento e taxa de poupança</li>
+        <li>Diagnóstico: ótimo / saudável / atenção / risco / no vermelho</li>
+        <li>Despesas <strong>essenciais</strong> (Moradia, Saúde…): sugestão de corte 10%</li>
+        <li>Despesas <strong>flexíveis</strong> (Lazer, Alimentação…): sugestão de corte 20%</li>
+        <li>Potencial de economia mensal e anual por categoria</li>
+      </ul>
+      <div class="highlight">
+        Classes: <code>Financas</code>, <code>AnaliseFinanceira</code>, <code>Sugestao</code>, <code>Projecao</code>
+      </div>
+    </section>
+
+    <!-- Slide 8 -->
+    <section class="slide">
+      <h2>Segurança</h2>
+      <ul>
+        <li>Senhas <strong>nunca</strong> em texto plano — hash SHA-256 com salt aleatório</li>
+        <li>Validação de senha forte (maiúscula, especial, mín. 6 caracteres)</li>
+        <li>Cada usuário vê apenas suas movimentações (<code>id_usuario</code>)</li>
+        <li>Cancelamento seguro: digitar <code>0</code> em qualquer campo aborta a operação</li>
+      </ul>
+      <pre>Formato no banco: salt:hash (Base64)</pre>
+    </section>
+
+    <!-- Slide 9 -->
+    <section class="slide">
+      <h2>Requisitos atendidos</h2>
+      <table>
+        <thead><tr><th>Código</th><th>Requisito</th><th>Implementação</th></tr></thead>
+        <tbody>
+          <tr><td>RF01</td><td>Cadastro e login</td><td class="ok">App + UsuarioDAO + Hash</td></tr>
+          <tr><td>RF02–RF05</td><td>CRUD e categorias</td><td class="ok">Create/Read/Update/Delete DAO</td></tr>
+          <tr><td>RF06–RF08</td><td>Saldo, CSV, relatórios</td><td class="ok">RelatorioDAO + ExportadorCSV</td></tr>
+          <tr><td>RF09–RF10</td><td>Projeção e sugestões</td><td class="ok">Financas + GastosMensaisDAO</td></tr>
+          <tr><td>RNF01–RNF08</td><td>Java, SQLite, hash, R$, terminal…</td><td class="ok">Todos atendidos</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Slide 10 -->
+    <section class="slide">
+      <h2>Como executar</h2>
+      <pre>
+# Linux / Mac
+./run.sh
+
+# Windows
+RunInWindows.bat
+
+# Dados de teste
+./seed.sh
+# Login: teste / Teste$1</pre>
+      <p class="lead" style="margin-top:16px">
+        Driver SQLite em <code>lib/</code> • Banco <code>financeiro.db</code> criado automaticamente •
+        CSVs em <code>excel/</code>
+      </p>
+    </section>
+
+    <!-- Slide 11 -->
+    <section class="slide">
+      <h2>Roteiro de demonstração</h2>
+      <ol style="margin-left:24px;line-height:1.9">
+        <li>Login com usuário <code>teste</code></li>
+        <li>Listar movimentações (frequência × valor)</li>
+        <li>Ver saldo e relatórios por categoria</li>
+        <li>Projeção de gastos do mês</li>
+        <li>Análise e sugestões de economia</li>
+        <li>Registrar nova movimentação</li>
+        <li>Exportar CSV</li>
+        <li>Mostrar senha hasheada no banco</li>
+      </ol>
+    </section>
+
+    <!-- Slide 12 -->
+    <section class="slide">
+      <span class="tag">Obrigado</span>
+      <h1><span>Best Financeiro</span></h1>
+      <p class="lead">
+        Finanças pessoais no terminal — simples, seguro e com análises que fazem sentido.
+      </p>
+      <div class="grid" style="margin-top:32px">
+        <div class="card"><b>docs/doc.html</b><span>Visão e requisitos</span></div>
+        <div class="card"><b>docs/estrutura.html</b><span>Documentação técnica</span></div>
+        <div class="card"><b>APRESENTACAO.md</b><span>Guia completo do sistema</span></div>
+      </div>
+    </section>
+
+  </div>
+
+  <nav class="nav" aria-label="Navegação dos slides">
+    <button type="button" id="prev" disabled>← Anterior</button>
+    <span class="counter" id="counter">1 / 12</span>
+    <button type="button" id="next">Próximo →</button>
+  </nav>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const prev = document.getElementById('prev');
+    const next = document.getElementById('next');
+    const counter = document.getElementById('counter');
+    const progress = document.getElementById('progress');
+    let current = 0;
+
+    function show(i) {
+      slides[current].classList.remove('active');
+      current = Math.max(0, Math.min(i, slides.length - 1));
+      slides[current].classList.add('active');
+      prev.disabled = current === 0;
+      next.disabled = current === slides.length - 1;
+      counter.textContent = (current + 1) + ' / ' + slides.length;
+      progress.style.width = ((current + 1) / slides.length * 100) + '%';
+    }
+
+    prev.addEventListener('click', () => show(current - 1));
+    next.addEventListener('click', () => show(current + 1));
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); show(current + 1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); show(current - 1); }
+      if (e.key === 'Home') show(0);
+      if (e.key === 'End') show(slides.length - 1);
+    });
+
+    show(0);
+  </script>
+</body>
+</html>
