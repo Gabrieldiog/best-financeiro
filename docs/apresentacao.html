@@ -30,6 +30,8 @@
       display: none;
       flex-direction: column;
       justify-content: center;
+      align-items: center;
+      text-align: center;
       padding: 48px 64px 80px;
       background: linear-gradient(160deg, #05070a 0%, var(--bg) 45%, #0f172a 100%);
       opacity: 0;
@@ -67,8 +69,16 @@
       color: var(--muted);
       max-width: 720px;
       line-height: 1.6;
+      margin-left: auto;
+      margin-right: auto;
     }
-    ul { margin: 16px 0 0 24px; line-height: 1.75; }
+    ul, ol {
+      margin: 16px auto 0;
+      line-height: 1.75;
+      display: inline-block;
+      text-align: left;
+      max-width: 640px;
+    }
     li { margin: 8px 0; }
     li strong { color: #f3f4f6; }
 
@@ -76,14 +86,16 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 16px;
-      margin-top: 28px;
+      margin: 28px auto 0;
       max-width: 900px;
+      width: 100%;
     }
     .card {
       background: rgba(17, 24, 39, .7);
       border: 1px solid var(--line);
       border-radius: 14px;
       padding: 18px;
+      text-align: center;
     }
     .card b {
       display: block;
@@ -98,7 +110,10 @@
       grid-template-columns: 1fr 1fr;
       gap: 32px;
       max-width: 960px;
+      width: 100%;
       align-items: start;
+      text-align: left;
+      margin: 0 auto;
     }
     @media (max-width: 768px) {
       .slide { padding: 32px 24px 72px; }
@@ -114,8 +129,9 @@
       line-height: 1.6;
       overflow-x: auto;
       color: #79c0ff;
-      margin-top: 16px;
+      margin: 16px auto 0;
       max-width: 640px;
+      text-align: left;
     }
     code { font-family: ui-monospace, Consolas, monospace; }
 
@@ -123,8 +139,9 @@
       width: 100%;
       max-width: 900px;
       border-collapse: collapse;
-      margin-top: 16px;
+      margin: 16px auto 0;
       font-size: .9rem;
+      text-align: left;
     }
     th, td {
       padding: 10px 14px;
@@ -142,8 +159,9 @@
       display: flex;
       flex-wrap: wrap;
       align-items: center;
+      justify-content: center;
       gap: 10px;
-      margin-top: 24px;
+      margin: 24px auto 0;
       max-width: 800px;
     }
     .box {
@@ -160,8 +178,9 @@
       padding: 14px 18px;
       background: rgba(251, 191, 36, .08);
       border-radius: 0 10px 10px 0;
-      margin-top: 20px;
+      margin: 20px auto 0;
       max-width: 720px;
+      text-align: left;
     }
 
     .nav {
@@ -199,6 +218,47 @@
       z-index: 10;
     }
     .team { margin-top: 20px; color: var(--muted); }
+
+    .closing-layout {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      max-width: 900px;
+      width: 100%;
+    }
+    .closing-text {
+      flex: 0 1 auto;
+      text-align: center;
+      width: 100%;
+    }
+    .qr-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      flex: 0 0 auto;
+    }
+    .qr-block img {
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      padding: 10px;
+      background: #fff;
+    }
+    .qr-label {
+      font-size: .85rem;
+      color: var(--muted);
+      text-align: center;
+    }
+    .repo-link a {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: .9rem;
+      word-break: break-all;
+    }
+    .repo-link a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -220,7 +280,7 @@
         <div class="card"><b>Terminal</b><span>Interface CLI</span></div>
         <div class="card"><b>Real (R$)</b><span>Moeda única</span></div>
       </div>
-      <p class="team"><strong>Integrantes:</strong> Gabriel Diogo, Guilherme, David, Patrick Aroha e Fabrício</p>
+      <p class="team"><strong>Integrantes:</strong> Gabriel Diogo, Guilherme Lourenço, David de Oliveira, Patrick Aroha, Fabrício, Michael Rodrigues</p>
     </section>
 
     <!-- Slide 2 -->
@@ -382,7 +442,7 @@ RunInWindows.bat
     <!-- Slide 11 -->
     <section class="slide">
       <h2>Roteiro de demonstração</h2>
-      <ol style="margin-left:24px;line-height:1.9">
+      <ol style="line-height:1.9">
         <li>Login com usuário <code>teste</code></li>
         <li>Listar movimentações (frequência × valor)</li>
         <li>Ver saldo e relatórios por categoria</li>
@@ -396,15 +456,33 @@ RunInWindows.bat
 
     <!-- Slide 12 -->
     <section class="slide">
-      <span class="tag">Obrigado</span>
-      <h1><span>Best Financeiro</span></h1>
-      <p class="lead">
-        Finanças pessoais no terminal — simples, seguro e com análises que fazem sentido.
-      </p>
-      <div class="grid" style="margin-top:32px">
-        <div class="card"><b>docs/doc.html</b><span>Visão e requisitos</span></div>
-        <div class="card"><b>docs/estrutura.html</b><span>Documentação técnica</span></div>
-        <div class="card"><b>APRESENTACAO.md</b><span>Guia completo do sistema</span></div>
+      <div class="closing-layout">
+        <span class="tag">Obrigado</span>
+        <div class="closing-text">
+          <h1><span>Best Financeiro</span></h1>
+          <p class="lead">
+            Finanças pessoais no terminal — simples, seguro e com análises que fazem sentido.
+          </p>
+          <div class="grid" style="margin-top:24px">
+            <div class="card"><b>docs/doc.html</b><span>Visão e requisitos</span></div>
+            <div class="card"><b>docs/estrutura.html</b><span>Documentação técnica</span></div>
+            <div class="card"><b>APRESENTACAO.md</b><span>Guia completo do sistema</span></div>
+          </div>
+        </div>
+        <div class="qr-block">
+          <img
+            src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&amp;data=https%3A%2F%2Fgithub.com%2FGabrieldiog%2Fbest-financeiro"
+            alt="QR Code do repositório no GitHub"
+            width="180"
+            height="180"
+          />
+          <p class="qr-label">Escaneie para acessar o repositório</p>
+          <p class="repo-link">
+            <a href="https://github.com/Gabrieldiog/best-financeiro" target="_blank" rel="noopener noreferrer">
+              github.com/Gabrieldiog/best-financeiro
+            </a>
+          </p>
+        </div>
       </div>
     </section>
 
